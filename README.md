@@ -1,25 +1,25 @@
+# Metalion's Experience Tweaks
 
-Installation information
-=======
+A minimalist mod for Minecraft Java 26.1.2 (NeoForge) that allows players to keep their accumulated experience upon death.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+### Features
+- Keeps experience level and progress bar after death.
+- Removes player experience orb drops on death to prevent duplication.
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+### Installation
+1. Make sure you have [NeoForge](https://neoforged.net/) installed.
+2. Place the mod's `.jar` file in the `mods` folder of your Minecraft installation.
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+### Configuration
+The mod generates a configuration file at `config/experiencetweaks-common.toml` after the first run.
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+- **blacklistedPlayers**: A list of player names who do NOT want to keep their experience.
+  - Example: `blacklistedPlayers = ["Player1", "Player2"]`
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+### Credits
+- **Author:** Leonardo K
+- **Version:** 1.0.0
+- **Loader:** NeoForge 26.1.2
+
+### License
+This project is licensed under the MIT License. See the `LICENSE` file for details.
