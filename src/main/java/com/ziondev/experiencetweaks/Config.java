@@ -11,5 +11,9 @@ public class Config {
             .comment("List of player names who do NOT want to keep their experience upon death.")
             .defineList("blacklistedPlayers", Collections.emptyList(), obj -> obj instanceof String);
 
+    public static final ModConfigSpec.BooleanValue DIRECT_EXPERIENCE = BUILDER
+            .comment("If true, experience points will be inserted directly into the player instead of dropping as orbs.")
+            .define("directExperience", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }

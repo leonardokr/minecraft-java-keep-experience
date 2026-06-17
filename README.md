@@ -15,6 +15,8 @@ The mod generates a configuration file at `config/experiencetweaks-common.toml` 
 
 - **blacklistedPlayers**: A list of player names who do NOT want to keep their experience.
   - Example: `blacklistedPlayers = ["Player1", "Player2"]`
+- **directExperience**: If set to `true`, experience from mobs will be given directly to the player instead of dropping as orbs.
+  - Default: `true`
 
 ### Credits
 - **Author:** Leonardo K
