@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ziondev.experiencetweaks.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "experiencetweaks.refmap.json",
+  "mixins": [
+    "EnchantmentMenuCurrencySlotMixin",
+    "EnchantmentMenuMixin"
+  ],
+  "client": [
+    "EnchantmentScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
