@@ -172,8 +172,8 @@ public abstract class EnchantmentScreenMixin extends AbstractContainerScreen<Enc
                     texts.add(Component.literal(itemCost + "x ").append(costStack.getHoverName()).withStyle(hasItems ? ChatFormatting.GRAY : ChatFormatting.RED));
                     int personalRequired = ClientEnchantLevelCache.getRequiredLevel(buttonId);
                     boolean hasPersonalLevel = this.minecraft.player.experienceLevel >= personalRequired;
-                    texts.add(Component.literal("Nivel minimo: " + personalRequired).withStyle(hasPersonalLevel ? ChatFormatting.GRAY : ChatFormatting.RED));
-                    texts.add(Component.literal("O nivel nao sera consumido no encantamento").withStyle(ChatFormatting.DARK_GRAY));
+                    texts.add(Component.translatable("experiencetweaks.enchant.tooltip.min_level", personalRequired).withStyle(hasPersonalLevel ? ChatFormatting.GRAY : ChatFormatting.RED));
+                    texts.add(Component.translatable("experiencetweaks.enchant.tooltip.no_consumption").withStyle(ChatFormatting.DARK_GRAY));
                 }
 
                 graphics.setComponentTooltipForNextFrame(this.font, texts, mouseX, mouseY);

@@ -1,4 +1,10 @@
 {
   "fml.menu.mods.mainPage.title": "Metalion's Experience Tweaks",
-  "experiencetweaks.description": "Mantenha sua experiência após a morte."
+  "experiencetweaks.description": "Mantenha sua experiência após a morte.",
+  "experiencetweaks.command.reset.invalid_player": "Argumento de jogador inválido.",
+  "experiencetweaks.command.reset.data_unavailable": "Os dados do encantamento não estão disponíveis (o servidor está rodando?).",
+  "experiencetweaks.command.reset.success": "Cooldown de encantamento redefinido para %s.",
+  "experiencetweaks.command.reset.no_data": "%s não tinha dados de cooldown para redefinir.",
+  "experiencetweaks.enchant.tooltip.min_level": "Nível mínimo: %s",
+  "experiencetweaks.enchant.tooltip.no_consumption": "Seu nível não será consumido no encantamento."
 }

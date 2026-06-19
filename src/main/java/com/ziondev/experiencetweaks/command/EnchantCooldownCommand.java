@@ -39,13 +39,13 @@ public class EnchantCooldownCommand {
         try {
             targets = EntityArgument.getPlayers(ctx, "player");
         } catch (Exception e) {
-            ctx.getSource().sendFailure(Component.literal("Invalid player argument."));
+            ctx.getSource().sendFailure(Component.translatable("experiencetweaks.command.reset.invalid_player"));
             return 0;
         }
 
         PlayerEnchantData data = ExperienceTweaksMod.getEnchantData();
         if (data == null) {
-            ctx.getSource().sendFailure(Component.literal("Enchantment data is not available (server not running?)."));
+            ctx.getSource().sendFailure(Component.translatable("experiencetweaks.command.reset.data_unavailable"));
             return 0;
         }
 
@@ -57,12 +57,12 @@ public class EnchantCooldownCommand {
 
             if (had) {
                 ctx.getSource().sendSuccess(
-                    () -> Component.literal("Reset enchantment cooldown for " + player.getName().getString() + "."),
+                    () -> Component.translatable("experiencetweaks.command.reset.success", player.getName()),
                     true
                 );
             } else {
                 ctx.getSource().sendSuccess(
-                    () -> Component.literal(player.getName().getString() + " had no cooldown data to reset."),
+                    () -> Component.translatable("experiencetweaks.command.reset.no_data", player.getName()),
                     false
                 );
             }
