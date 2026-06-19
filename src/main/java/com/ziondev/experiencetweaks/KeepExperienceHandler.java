@@ -9,7 +9,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
  * Keeps the player's experience level, total experience, and progress bar
  * intact after death by copying them from the old player instance to the new one.
  * <p></p>
- * Players listed in {@code blacklistedPlayers} are excluded and lose XP normally.
+ * Players listed in {@code dontKeepExperience} are excluded and lose XP normally.
  */
 @EventBusSubscriber(modid = ExperienceTweaksMod.MODID)
 public class KeepExperienceHandler {
@@ -21,7 +21,7 @@ public class KeepExperienceHandler {
         }
 
         Player oldPlayer = event.getOriginal();
-        if (Config.BLACKLISTED_PLAYERS.get().contains(oldPlayer.getName().getString())) {
+        if (Config.DONT_KEEP_EXPERIENCE.get().contains(oldPlayer.getName().getString())) {
             return;
         }
 
