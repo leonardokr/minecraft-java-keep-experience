@@ -41,13 +41,13 @@ public class ExperienceTweaksMod {
         registrar.playToClient(
                 SyncEnchantLevelsPacket.TYPE,
                 SyncEnchantLevelsPacket.STREAM_CODEC,
-                (packet, ctx) -> ClientEnchantLevelCache.update(packet.requiredLevels())
+                (packet, _) -> ClientEnchantLevelCache.update(packet.requiredLevels())
         );
     }
 
     /**
      * Returns the persistent {@link PlayerEnchantData} from the overworld saved data store,
-     * or {@code null} if the server is not running (e.g. on the client side).
+     * or {@code null} if the server is not running (e.g., on the client side).
      */
     public static PlayerEnchantData getEnchantData() {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
@@ -59,7 +59,7 @@ public class ExperienceTweaksMod {
 
     /**
      * Sends the player's current required levels to their client.
-     * Should be called whenever the enchantment menu opens or after a successful enchant.
+     * Should be called whenever the enchantment menu opens or after a successful enchanting.
      */
     public static void syncEnchantLevels(ServerPlayer player) {
         PlayerEnchantData data = getEnchantData();

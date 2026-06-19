@@ -6,9 +6,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 /**
- * Keeps the player's experience level, total experience and progress bar
+ * Keeps the player's experience level, total experience, and progress bar
  * intact after death by copying them from the old player instance to the new one.
- *
+ * <p></p>
  * Players listed in {@code blacklistedPlayers} are excluded and lose XP normally.
  */
 @EventBusSubscriber(modid = ExperienceTweaksMod.MODID)

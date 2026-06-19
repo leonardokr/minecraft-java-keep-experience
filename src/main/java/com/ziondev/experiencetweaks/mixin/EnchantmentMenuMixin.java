@@ -1,11 +1,11 @@
 package com.ziondev.experiencetweaks.mixin;
 
 import com.ziondev.experiencetweaks.Config;
+import com.ziondev.experiencetweaks.EnchantmentConfigHandler;
 import com.ziondev.experiencetweaks.ExperienceTweaksMod;
 import com.ziondev.experiencetweaks.PlayerEnchantData;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -24,9 +24,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -58,7 +60,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
     }
 
     @Shadow
-    public abstract void slotsChanged(Container container);
+    public abstract void slotsChanged(@NonNull Container container);
 
     @Invoker("getEnchantmentList")
     protected abstract List<EnchantmentInstance> experienceTweaks$getEnchantmentList(
@@ -112,7 +114,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
         ItemStack currency = this.enchantSlots.getItem(1);
         int requiredLevel = this.costs[buttonId];
         int vanillaLevelCost = buttonId + 1;
-        // Item cost is based on button index (1, 2, 3) so it is always ordered
+        // Item cost is based on button index (1, 2, 3), so it is always ordered
         int itemCost = experienceTweaks$getItemCost(buttonId);
 
         if (requiredLevel <= 0 || itemStack.isEmpty()) {
@@ -137,7 +139,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
         }
 
         this.access.execute((level, pos) -> {
-            ItemStack enchantmentItem = itemStack;
+            ItemStack enchantmentItem;
             List<EnchantmentInstance> enchantments = this.experienceTweaks$getEnchantmentList(
                     level.registryAccess(),
                     itemStack,
@@ -146,7 +148,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
             );
 
             if (!enchantments.isEmpty()) {
-                // Record the enchant BEFORE giveExperienceLevels changes the level
+                // Record the enchanting BEFORE giveExperienceLevels changes the level
                 int levelBeforeEnchant = player.experienceLevel;
 
                 player.onEnchantmentPerformed(itemStack, vanillaLevelCost);
@@ -167,7 +169,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
                 if (!player.hasInfiniteMaterials()) {
                     PlayerEnchantData enchantData = ExperienceTweaksMod.getEnchantData();
                     if (enchantData != null) {
-                        enchantData.recordEnchant(player.getUUID(), buttonId, levelBeforeEnchant);
+                        enchantData.recordEnchant(player.getUUID(), levelBeforeEnchant);
                     }
                     if (player instanceof ServerPlayer serverPlayer) {
                         ExperienceTweaksMod.syncEnchantLevels(serverPlayer);
@@ -189,6 +191,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
         cir.setReturnValue(true);
     }
 
+    @Unique
     private static int experienceTweaks$getPersonalRequiredLevel(Player player, int buttonId) {
         PlayerEnchantData enchantData = ExperienceTweaksMod.getEnchantData();
         if (enchantData != null) {
@@ -213,7 +216,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
             CallbackInfoReturnable<ItemStack> cir
     ) {
         Slot slot = this.slots.get(slotIndex);
-        if (slot == null || !slot.hasItem() || slotIndex < 2) {
+        if (!slot.hasItem() || slotIndex < 2) {
             return;
         }
 
@@ -264,19 +267,12 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
         cir.setReturnValue(affordableButtons);
     }
 
+    @Unique
     private static Item experienceTweaks$getCostItem() {
-        String configuredItem = Config.ENCHANTMENT_COST_ITEM.get();
-        if (configuredItem != null && !configuredItem.isBlank()) {
-            try {
-                return BuiltInRegistries.ITEM.getOptional(Identifier.parse(configuredItem)).orElse(Items.LAPIS_LAZULI);
-            } catch (Exception exception) {
-                ExperienceTweaksMod.LOGGER.warn("Invalid enchantmentCostItem '{}', falling back to minecraft:lapis_lazuli", configuredItem);
-            }
-        }
-
-        return Items.LAPIS_LAZULI;
+        return EnchantmentConfigHandler.getConfiguredItem();
     }
 
+    @Unique
     private static int experienceTweaks$getItemCost(int buttonId) {
         double multiplier = Config.ENCHANTMENT_COST_MULTIPLIER.get();
         if (multiplier <= 0.0D) {

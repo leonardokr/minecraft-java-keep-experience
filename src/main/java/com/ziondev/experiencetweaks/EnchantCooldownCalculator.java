@@ -2,10 +2,12 @@ package com.ziondev.experiencetweaks;
 
 /**
  * Pure stateless calculator for enchantment table cooldown levels.
- * Contains no Minecraft dependencies so it can be unit-tested without
+ * Contains no Minecraft dependencies, so it can be unit-tested without
  * loading the game.
  */
 public final class EnchantCooldownCalculator {
+
+    // TODO: Config to switch between a cooldown based on current level and based on the last cooldown level
 
     public static final int BUTTON_COUNT = 3;
 
@@ -23,7 +25,7 @@ public final class EnchantCooldownCalculator {
      * a successful enchantment.
      *
      * <p><b>Step 1 — independent increment per button (square-root curve):</b>
-     * <pre>  increment = max(1, ceil(buttonLevel × bias × C / √currentLevel))</pre>
+     * <pre>  increment = max (1, ceil(buttonLevel × bias × C / √currentLevel))</pre>
      * where {@code C = 50} is an internal scaling constant, and {@code bias} is
      * a 0.0–1.0 weight configured by the server operator.
      *
@@ -31,7 +33,7 @@ public final class EnchantCooldownCalculator {
      * makes the cooldown decay much more slowly at high levels, keeping the system
      * meaningful for players with hundreds of levels.
      *
-     * <p><b>Step 2 — enforce minimum gap of 1 between consecutive buttons:</b>
+     * <p><b>Step 2 — enforce a minimum gap of 1 between consecutive buttons:</b>
      * <pre>  next[1] = max(next[1], next[0] + 1)
      *  next[2] = max(next[2], next[1] + 1)</pre>
      *
@@ -43,7 +45,7 @@ public final class EnchantCooldownCalculator {
      *   <li>If the natural gap is already &gt; 1, it is preserved.</li>
      * </ul>
      *
-     * @param currentLevel player's experience level at enchant time
+     * @param currentLevel player's experience level at enchanted time
      * @param bias         0.0–1.0 difficulty weight from config
      * @return int[3] — next required levels for buttons 0, 1, 2 (0-indexed)
      */

@@ -9,12 +9,12 @@ import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
  * When {@code directExperience} is enabled, suppresses all XP orb drops and
  * delivers the experience directly:
  * <ul>
- *   <li>Player death drops are cancelled (no orbs on the ground).</li>
+ *   <li>Player death drops are canceled (no orbs on the ground).</li>
  *   <li>Mob XP goes straight to the attacking player instead of spawning orbs.</li>
  * </ul>
  *
- * When {@code directExperience} is disabled, this handler does nothing and
- * vanilla behaviour is preserved — orbs spawn normally for both mobs and players.
+ * When {@code directExperience} is disabled, this handler does nothing, and
+ * vanilla behavior is preserved — orbs spawn normally for both mobs and players.
  */
 @EventBusSubscriber(modid = ExperienceTweaksMod.MODID)
 public class DirectExperienceHandler {

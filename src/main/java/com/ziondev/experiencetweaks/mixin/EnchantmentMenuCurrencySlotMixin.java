@@ -1,13 +1,11 @@
 package com.ziondev.experiencetweaks.mixin;
 
-import com.ziondev.experiencetweaks.Config;
-import com.ziondev.experiencetweaks.ExperienceTweaksMod;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.ziondev.experiencetweaks.EnchantmentConfigHandler;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -32,16 +30,8 @@ public abstract class EnchantmentMenuCurrencySlotMixin {
         cir.setReturnValue(null);
     }
 
+    @Unique
     private static Item experienceTweaks$getCostItem() {
-        String configuredItem = Config.ENCHANTMENT_COST_ITEM.get();
-        if (configuredItem != null && !configuredItem.isBlank()) {
-            try {
-                return BuiltInRegistries.ITEM.getOptional(Identifier.parse(configuredItem)).orElse(Items.LAPIS_LAZULI);
-            } catch (Exception exception) {
-                ExperienceTweaksMod.LOGGER.warn("Invalid enchantmentCostItem '{}', falling back to minecraft:lapis_lazuli", configuredItem);
-            }
-        }
-
-        return Items.LAPIS_LAZULI;
+        return EnchantmentConfigHandler.getConfiguredItem();
     }
 }

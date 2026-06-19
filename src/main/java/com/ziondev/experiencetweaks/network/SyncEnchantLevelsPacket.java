@@ -6,6 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public record SyncEnchantLevelsPacket(List<Integer> requiredLevels) implements C
     );
 
     @Override
-    public CustomPacketPayload.Type<SyncEnchantLevelsPacket> type() {
+    public CustomPacketPayload.@NonNull Type<SyncEnchantLevelsPacket> type() {
         return TYPE;
     }
 }

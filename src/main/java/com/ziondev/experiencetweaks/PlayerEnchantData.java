@@ -16,8 +16,8 @@ import java.util.UUID;
 /**
  * Server-side persistent data tracking the minimum experience level each player
  * must reach before they can use each enchantment table button again.
- *
- * Serialised via Codec and stored in world saves under the id defined by {@link #TYPE}.
+ * <p></p>
+ * Serialized via Codec and stored in world saves under the id defined by {@link #TYPE}.
  */
 public class PlayerEnchantData extends SavedData {
 
@@ -84,7 +84,7 @@ public class PlayerEnchantData extends SavedData {
      *
      * <p>On first use (no saved entry), the required level is the higher of:
      * <ul>
-     *   <li>the base level from config (e.g. 10 / 15 / 20), scaled by buttonLevel/3</li>
+     *   <li>the base level from config (e.g., 10 / 15 / 20), scaled by buttonLevel/3</li>
      *   <li>the player's current level scaled by buttonLevel/3 (so button 3 = currentLevel,
      *       button 2 = ~66%, button 1 = ~33%)</li>
      * </ul>
@@ -99,18 +99,6 @@ public class PlayerEnchantData extends SavedData {
             int[] configMins = new int[BUTTON_COUNT];
             for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = getBaseLevel(b);
             return EnchantCooldownCalculator.computeFirstUseLevels(currentLevel, configMins)[buttonId];
-        }
-        return levels[buttonId];
-    }
-
-    /**
-     * Overload without currentLevel for contexts where the player level is not available
-     * (e.g. client-side cache already holds the synced value).
-     */
-    public int getRequiredLevel(UUID playerId, int buttonId) {
-        int[] levels = playerRequiredLevels.get(playerId);
-        if (levels == null) {
-            return getBaseLevel(buttonId);
         }
         return levels[buttonId];
     }
@@ -138,14 +126,13 @@ public class PlayerEnchantData extends SavedData {
      * gap of 1 level is enforced between consecutive buttons (button 2 ≥ button 1 + 1,
      * button 3 ≥ button 2 + 1). The gap used is always {@code max(naturalGap, 1)}.
      *
-     * <p>A button's required level is only ever raised by this call, never lowered.
+     * <p>This call only ever raises a button's required level, never lowered.
      *
      * @param playerId     player UUID
-     * @param buttonId     0-based button index (0, 1, 2) — the one actually clicked
      * @param currentLevel player's experience level at the time of enchanting
      */
-    public void recordEnchant(UUID playerId, int buttonId, int currentLevel) {
-        int[] levels = playerRequiredLevels.computeIfAbsent(playerId, k -> buildDefaultLevels(currentLevel));
+    public void recordEnchant(UUID playerId, int currentLevel) {
+        int[] levels = playerRequiredLevels.computeIfAbsent(playerId, _ -> buildDefaultLevels(currentLevel));
 
         double bias = Config.ENCHANTMENT_REQUIRED_LEVEL_BIAS.get();
         int[] next = EnchantCooldownCalculator.computeNextLevels(currentLevel, bias);

@@ -40,7 +40,7 @@ authors="Leonardo K"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Metalion's Experience Tweaks is a simple mod that allows players to keep their accumulated experience levels and points upon death.
+A mod for Minecraft Java with a suite of experience-related tweaks designed for servers where XP is plentiful and progression should feel meaningful at any level.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.

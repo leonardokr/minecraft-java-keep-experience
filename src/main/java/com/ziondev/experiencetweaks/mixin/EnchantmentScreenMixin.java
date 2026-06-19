@@ -3,7 +3,7 @@ package com.ziondev.experiencetweaks.mixin;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import com.ziondev.experiencetweaks.Config;
-import com.ziondev.experiencetweaks.ExperienceTweaksMod;
+import com.ziondev.experiencetweaks.EnchantmentConfigHandler;
 import com.ziondev.experiencetweaks.network.ClientEnchantLevelCache;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screens.inventory.EnchantmentNames;
 import net.minecraft.client.gui.screens.inventory.EnchantmentScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -23,11 +22,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.EnchantmentMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -71,10 +70,10 @@ public abstract class EnchantmentScreenMixin extends AbstractContainerScreen<Enc
             GuiGraphicsExtractor graphics,
             int mouseX,
             int mouseY,
-            float partialTick,
+            float a,
             CallbackInfo ci
     ) {
-        super.extractBackground(graphics, mouseX, mouseY, partialTick);
+        super.extractBackground(graphics, mouseX, mouseY, a);
         int xo = (this.width - this.imageWidth) / 2;
         int yo = (this.height - this.imageHeight) / 2;
         graphics.blit(RenderPipelines.GUI_TEXTURED, ENCHANTING_TABLE_LOCATION, xo, yo, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
@@ -142,10 +141,13 @@ public abstract class EnchantmentScreenMixin extends AbstractContainerScreen<Enc
     ) {
         float partialTick = this.minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        assert this.minecraft.player != null;
         boolean infiniteMaterials = this.minecraft.player.hasInfiniteMaterials();
 
         for (int buttonId = 0; buttonId < 3; buttonId++) {
             int requiredLevel = this.menu.costs[buttonId];
+            assert this.minecraft
+                    .level != null;
             Optional<Holder.Reference<Enchantment>> enchantment = this.minecraft
                     .level
                     .registryAccess()
@@ -184,6 +186,7 @@ public abstract class EnchantmentScreenMixin extends AbstractContainerScreen<Enc
         ci.cancel();
     }
 
+    @Unique
     private void experienceTweaks$drawCurrencyCost(GuiGraphicsExtractor graphics, int x, int y, int itemCost, boolean enabled) {
         ItemStack stack = new ItemStack(experienceTweaks$getCostItem());
         graphics.item(stack, x, y);
@@ -192,28 +195,22 @@ public abstract class EnchantmentScreenMixin extends AbstractContainerScreen<Enc
         graphics.text(this.font, label, x + 17 - this.font.width(label), y + 9, labelColor, true);
     }
 
+    @Unique
     private int experienceTweaks$getCurrencyCount() {
         ItemStack currency = this.menu.getSlot(1).getItem();
         return currency.is(experienceTweaks$getCostItem()) ? currency.getCount() : 0;
     }
 
+    @Unique
     private static Item experienceTweaks$getCostItem() {
-        String configuredItem = Config.ENCHANTMENT_COST_ITEM.get();
-        if (configuredItem != null && !configuredItem.isBlank()) {
-            try {
-                return BuiltInRegistries.ITEM.getOptional(Identifier.parse(configuredItem)).orElse(Items.LAPIS_LAZULI);
-            } catch (Exception exception) {
-                ExperienceTweaksMod.LOGGER.warn("Invalid enchantmentCostItem '{}', falling back to minecraft:lapis_lazuli", configuredItem);
-            }
-        }
-
-        return Items.LAPIS_LAZULI;
+        return EnchantmentConfigHandler.getConfiguredItem();
     }
 
     /**
      * Item cost is based on button index (0, 1, 2), so the cost is always ordered: button 1 < button 2 < button 3, 
      * regardless of what level values the vanilla enchantment system rolls into costs[].
      */
+    @Unique
     private static int experienceTweaks$getItemCost(int buttonId) {
         double multiplier = Config.ENCHANTMENT_COST_MULTIPLIER.get();
         if (multiplier <= 0.0D) {

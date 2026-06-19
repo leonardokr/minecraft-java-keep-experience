@@ -17,7 +17,7 @@ import java.util.Collection;
  * Requires the {@code LEVEL_ADMINS} permission (OP level 3, same as /op itself).
  *
  * <pre>
- * /experiencetweaks reset &lt;player&gt;   — resets enchantment cooldown for one or more players
+ * /experiencetweaks reset &lt;player&gt; — resets enchantment cooldown for one or more players
  * </pre>
  */
 public class EnchantCooldownCommand {
