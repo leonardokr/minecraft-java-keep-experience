@@ -120,8 +120,9 @@ public class PlayerEnchantData extends SavedData {
      *
      * <p>This call only ever raises a button's required level, never lowered.
      *
-     * @param playerId  player UUID
-     * @param level     player's level or last level at the time of enchanting
+     * @param playerId              player UUID
+     * @param buttonId              0-based button index (0, 1, 2)
+     * @param currentPlayerLevel    player's level or last level at the time of enchanting
      */
     public void recordEnchant(UUID playerId, int buttonId, int currentPlayerLevel) {
         int[] levels = playerRequiredLevels.computeIfAbsent(playerId, _ -> buildDefaultLevels(currentPlayerLevel));
