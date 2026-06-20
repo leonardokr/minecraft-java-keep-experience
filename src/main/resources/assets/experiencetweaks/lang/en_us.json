@@ -14,5 +14,9 @@
   "experiencetweaks.config.error.et_0x005": "Could not read the item cost multiplier for enchanting. Using 1.5x as fallback. Check 'enchantmentCostMultiplier' and reload the config.",
   "experiencetweaks.config.error.et_0x006": "Could not read the enchantment cooldown mode. Using 'current_level' as fallback. Check 'enchantmentCooldownType' and reload the config.",
   "experiencetweaks.config.error.et_0x007": "Could not read enchantment button base levels. Default thresholds will be used. Check 'enchantmentBaseRequiredLevels' and reload the config.",
-  "experiencetweaks.config.error.et_0x008": "Could not read the enchantment difficulty bias. Using 0.25 (balanced default). Check 'enchantmentRequiredLevelBias' and reload the config."
+  "experiencetweaks.config.error.et_0x008": "Could not read the enchantment difficulty bias. Using 0.25 (balanced default). Check 'enchantmentRequiredLevelBias' and reload the config.",
+  "experiencetweaks.config.error.et_0x009": "Could not read 'giveExperienceEveryDay' setting. Daily experience rewards will be disabled by default. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x00a": "Could not read 'giveExperienceEveryDayBase' setting. Falling back to 5 experience points. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x00b": "Could not read 'giveExperienceEveryDayGrowth' setting. Falling back to 0.1 (10% growth). Check and reload the config.",
+  "experiencetweaks.daily_xp.reward": "You survived another day without dying and earned %s experience points! (Survival streak: %s days)."
 }

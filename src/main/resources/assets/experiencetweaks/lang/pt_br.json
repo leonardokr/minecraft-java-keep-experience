@@ -14,5 +14,9 @@
   "experiencetweaks.config.error.et_0x005": "Não foi possível ler o multiplicador de custo de itens para encantamento. Usando 1.5x como padrão. Verifique 'enchantmentCostMultiplier' e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x006": "Não foi possível ler o modo de cooldown de encantamento. Usando 'current_level' como padrão. Verifique 'enchantmentCooldownType' e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x007": "Não foi possível ler os níveis base dos botões de encantamento. Limites padrão serão usados. Verifique 'enchantmentBaseRequiredLevels' e recarregue a configuração.",
-  "experiencetweaks.config.error.et_0x008": "Não foi possível ler a inclinação de dificuldade de encantamento. Usando 0.25 (padrão equilibrado). Verifique 'enchantmentRequiredLevelBias' e recarregue a configuração."
+  "experiencetweaks.config.error.et_0x008": "Não foi possível ler a inclinação de dificuldade de encantamento. Usando 0.25 (padrão equilibrado). Verifique 'enchantmentRequiredLevelBias' e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x009": "Não foi possível ler a configuração 'giveExperienceEveryDay'. A recompensa diária de experiência estará desativada por padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x00a": "Não foi possível ler a configuração 'giveExperienceEveryDayBase'. Usando 5 pontos de experiência como padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x00b": "Não foi possível ler a configuração 'giveExperienceEveryDayGrowth'. Usando 0.1 (10% de crescimento) como padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.daily_xp.reward": "Você sobreviveu mais um dia sem morrer e ganhou %s pontos de experiência! (Sequência de sobrevivência: %s dias)."
 }

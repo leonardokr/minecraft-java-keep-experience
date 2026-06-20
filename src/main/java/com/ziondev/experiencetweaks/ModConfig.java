@@ -54,7 +54,10 @@ public final class ModConfig {
         ENCHANTMENT_COST_MULTIPLIER("ET-0x005"),
         ENCHANTMENT_COOLDOWN_TYPE("ET-0x006"),
         ENCHANTMENT_BASE_REQUIRED_LEVELS("ET-0x007"),
-        ENCHANTMENT_REQUIRED_LEVEL_BIAS("ET-0x008");
+        ENCHANTMENT_REQUIRED_LEVEL_BIAS("ET-0x008"),
+        GIVE_EXPERIENCE_EVERY_DAY("ET-0x009"),
+        GIVE_EXPERIENCE_EVERY_DAY_BASE("ET-0x00a"),
+        GIVE_EXPERIENCE_EVERY_DAY_GROWTH("ET-0x00b");
 
         private final String code;
 
@@ -221,6 +224,45 @@ public final class ModConfig {
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ENCHANTMENT_REQUIRED_LEVEL_BIAS);
             return 0.25;
+        }
+    }
+
+    /**
+     * Returns {@code true} if the daily survival experience rewards are enabled.
+     * <p>Fallback: {@code false}
+     */
+    public static boolean isGiveExperienceEveryDayEnabled() {
+        try {
+            return Config.GIVE_EXPERIENCE_EVERY_DAY.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY);
+            return false;
+        }
+    }
+
+    /**
+     * Returns the base experience points given to players each day they survive.
+     * <p>Fallback: {@code 5}
+     */
+    public static int getGiveExperienceEveryDayBase() {
+        try {
+            return Config.GIVE_EXPERIENCE_EVERY_DAY_BASE.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_BASE);
+            return 5;
+        }
+    }
+
+    /**
+     * Returns the growth multiplier for daily survival rewards.
+     * <p>Fallback: {@code 0.1}
+     */
+    public static double getGiveExperienceEveryDayGrowth() {
+        try {
+            return Config.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_GROWTH);
+            return 0.1;
         }
     }
 }

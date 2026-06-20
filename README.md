@@ -29,6 +29,9 @@ The mod generates a configuration file at `config/experiencetweaks-common.toml` 
 | `enchantmentCooldownType`       | `"current_level"`     | Type of cooldown progression for enchantment buttons. Options: `"current_level"` or `"last_level"`.                                       |
 | `enchantmentBaseRequiredLevels` | `[10, 15, 20]`        | Initial player experience levels required for enchantment table buttons 1, 2, and 3.                                                      |
 | `enchantmentRequiredLevelBias`  | `0.25`                | Difficulty weight for the enchantment cooldown curve. Range: `0.0` (minimum) to `1.0` (maximum).                                          |
+| `giveExperienceEveryDay`        | `false`               | If `true`, players will receive experience points every in-game day they survive without dying.                                           |
+| `giveExperienceEveryDayBase`    | `5`                   | Base experience points awarded to players each day they survive.                                                                          |
+| `giveExperienceEveryDayGrowth`  | `0.1`                 | Growth multiplier (percentage) for consecutive days survived. Example: 0.1 = 10% more experience per consecutive day survived.            |
 
 ---
 
@@ -140,6 +143,47 @@ Button 3: ceil(3 × 0.5 × 50 / 14.14) = ceil(5.30) = 6  →  next = 206
 ```
 
 At level 200, cooldowns are shorter in absolute levels — but each level at this height represents significantly more raw XP than at level 50, keeping the cost meaningful.
+
+</details>
+
+---
+
+<details>
+<summary><strong>Daily Experience Survival Rewards — How It Works</strong></summary>
+
+<br>
+
+When `giveExperienceEveryDay` is enabled, players receive experience points at the end of each in-game day (every 24000 ticks) they survive without dying.
+
+### Progression and Death Reset
+
+If a player dies, their daily survival streak resets back to 0.
+
+- On the first completed day without dying, the streak is 1.
+- On the second completed day, the streak is 2, and so on.
+
+### Formula
+
+The daily experience points awarded are calculated as:
+
+```
+reward = round(giveExperienceEveryDayBase × (1.0 + giveExperienceEveryDayGrowth × daysSurvived))
+```
+
+### Example Calculations
+
+With default config values (`giveExperienceEveryDayBase = 5` and `giveExperienceEveryDayGrowth = 0.1`):
+
+- **Day 1 completed (streak = 1):**
+  `round(5 × (1.0 + 0.1 × 1)) = round(5.5) = 6` points.
+- **Day 2 completed (streak = 2):**
+  `round(5 × (1.0 + 0.1 × 2)) = round(6.0) = 6` points.
+- **Day 3 completed (streak = 3):**
+  `round(5 × (1.0 + 0.1 × 3)) = round(6.5) = 7` points.
+- **Day 10 completed (streak = 10):**
+  `round(5 × (1.0 + 0.1 × 10)) = round(10.0) = 10` points.
+
+If the player dies, the streak goes back to 0, and the next day completed will count as Day 1 (yielding 6 points).
 
 </details>
 
