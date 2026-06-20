@@ -71,7 +71,7 @@ public final class ModConfig {
     }
 
     /**
-     * Tracks errors that have already been broadcast during this server session
+     * Tracks errors that have already been broadcast during this server session,
      * so the same alert is never repeated twice in chat (it still appears once in the log).
      */
     private static final Set<ConfigError> REPORTED = Collections.synchronizedSet(
