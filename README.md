@@ -186,4 +186,4 @@ Players listed in `dontKeepExperience` do NOT keep their experience after death 
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the terms specified in the [LICENSE](LICENSE) file.
